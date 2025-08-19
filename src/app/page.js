@@ -5,7 +5,7 @@ import styles from './page.module.scss';
 const items = [
   {
     label: 'bonjour.wav',
-    audio: '/audio/bonjour.WAV',
+    audio: '/audio/bonjour.wav',
     image: null,
   },
   {
