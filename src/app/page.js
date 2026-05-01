@@ -115,17 +115,9 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
   const audioRef = useRef(null);
   const videoRef = useRef(null);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 700);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const formatTime = (time) => {
     if (isNaN(time) || time === undefined) {
@@ -196,6 +188,44 @@ export default function Home() {
     setCurrentTime(0);
   };
 
+  const handleItemClick = (index) => {
+    const isCurrentlyActive =
+      index === selectedIndex && (isPlaying || showImage || showVideo);
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setShowImage(false);
+    setShowVideo(false);
+    setCurrentTime(0);
+
+    if (isCurrentlyActive) {
+      return;
+    }
+
+    setSelectedIndex(index);
+    const item = items[index];
+    setShowImage(!!item.image);
+    setShowVideo(!!item.video);
+
+    if (item.audio && audioRef.current) {
+      audioRef.current.src = item.audio;
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+
+    if (item.video && videoRef.current) {
+      videoRef.current.src = item.video;
+      videoRef.current.play();
+    }
+  };
+
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -203,24 +233,23 @@ export default function Home() {
     };
   }, [selectedIndex, isPlaying]);
 
-  if (isMobile) {
-    return (
-      <div className={styles.page}>
-        <div>Ce contenu n'est pas disponible sur mobile</div>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.page}>
+      <div className={styles.rotatePrompt}>
+        Veuillez tourner votre appareil
+      </div>
       <main className={styles.main}>
         <div className={styles.container}>
           <h2 className={styles.container__title}>REPERTOIRE</h2>
+          <div className={styles.container__separator} aria-hidden="true">
+            {'═'.repeat(200)}
+          </div>
 
           <div className={styles.container__items}>
             {items.map((item, index) => (
               <div
                 key={index}
+                onClick={() => handleItemClick(index)}
                 className={`${styles.container__line} ${
                   index === selectedIndex
                     ? styles['container__line-selected']
