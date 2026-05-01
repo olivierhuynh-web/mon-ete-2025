@@ -95,7 +95,7 @@
   }
 }
 
-@media (orientation: landscape) and (max-height: 500px) {
+@media (orientation: landscape) and (pointer: coarse) {
   .main {
     height: 100dvh;
     overflow: hidden;
@@ -103,18 +103,18 @@
 
   .container {
     margin: 0;
-    padding: 2vh 3vw;
-    font-size: clamp(10px, 3.8vh, 17px);
+    padding: 2svh 3vw;
+    font-size: clamp(10px, 3.8svh, 17px);
     line-height: 1.2;
     overflow: hidden;
 
     &__title {
-      font-size: clamp(10px, 3.8vh, 17px);
+      font-size: clamp(10px, 3.8svh, 17px);
       margin: 0;
     }
 
     &__items {
-      margin-top: 1vh;
+      margin-top: 1svh;
     }
 
     &__line {
@@ -138,13 +138,13 @@
 
   .overlayImage {
     width: auto;
-    height: 70vh;
+    height: 70svh;
     max-width: 90vw;
   }
 
   .overlayImage--horizontal {
     width: auto;
-    height: 70vh;
+    height: 70svh;
     max-width: 90vw;
   }
 }
