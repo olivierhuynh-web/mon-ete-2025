@@ -95,7 +95,7 @@
   }
 }
 
-@media (orientation: landscape) and (pointer: coarse) {
+@media (orientation: landscape) and (max-width: 950px) {
   .main {
     height: 100dvh;
     overflow: hidden;
